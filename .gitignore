@@ -1,0 +1,22 @@
+# Datos sensibles - nunca subir
+data/raw/
+data/processed/
+*.xlsx
+*.parquet
+*.csv
+
+# Modelos entrenados
+models/*.pkl
+models/*.joblib
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Sistema
+.DS_Store
+Thumbs.db
