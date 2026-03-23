@@ -20,3 +20,6 @@ __pycache__/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Notebooks - contienen estructura de datos sensible
+notebooks/
