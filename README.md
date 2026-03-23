@@ -7,13 +7,25 @@ Actualmente las soluciones se ejecutan de forma reactiva y la disponibilidad de 
 
 Este proyecto busca contruir un **sistema de puntaje de riesgo** que predice qué alimentadores eléctricos tienen más probabilidad de presentar fallos severos durante los próximos 7 días habilitando la toma decisiones de mantenimiento proactivo.
 
-## Severity Definition
-Una interrupción es clasificado como severa basado en la regulación de consesiones por parte de la Ley de conseciones eléctricas.
+## Data Processing Decisions
 
-| Zone | Max duration | Customers affected |
-|------|-------------|-------------------|
-| Metropolitano | > 300 min | >= 1 |
-| Extended | > 700 min | >= 1 |
+### Duration Calculation
+The official column `Duración de incidencia [min]` is used as the primary 
+duration source. Records with negative duration values are removed as they 
+represent system registration errors.
+
+### Data Quality Filters Applied
+| Filter | Records removed | Reason |
+|--------|----------------|---------|
+| Negative duration | 68 | System registration errors |
+| Extreme outliers (> 10,000 min) | 76 | Likely unclosed tickets or system errors |
+| **Final dataset** | **227,708** | Ready for analysis |
+
+### Severity Thresholds (based on Ley de Concesiones Eléctricas)
+| Zone | Max duration before severe |
+|------|---------------------------|
+| Metropolitan | > 300 min |
+| Extended (Cañete, etc.) | > 700 min |
 
 ## Duration Calculation
 Para el cáculo de la duración vamos a utilizar: 
@@ -45,5 +57,16 @@ support-electrical-risk/
 - pandas, scikit-learn, plotly
 - Streamlit (dashboard)
 
+
 ## Status
 In progress — Phase 1: Exploratory Data Analysis
+
+## Notes on Data Privacy
+This project uses proprietary data from Luz del Sur (a Peruvian electric 
+distribution company). For confidentiality reasons:
+- Raw and processed data are not included in this repository
+- Notebooks are excluded as they contain internal system structure
+- A synthetic dataset and clean notebooks will be added upon project completion
+
+If you want to reproduce this project, the data pipeline is fully documented
+in `src/` and can be adapted to any similar electric utility dataset.
